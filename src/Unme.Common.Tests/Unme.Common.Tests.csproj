@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryUtilityTests.cs" />
     <Compile Include="ScopeTests.cs" />
     <Compile Include="SequenceUtilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

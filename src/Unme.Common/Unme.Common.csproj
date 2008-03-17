@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryUtility.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="SequenceUtility.cs" />
     <Compile Include="StopwatchUtility.cs" />
