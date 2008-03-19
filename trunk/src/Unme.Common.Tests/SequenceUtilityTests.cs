@@ -44,6 +44,42 @@ namespace Unme.Common.Tests
 			Assert.Equal(length, sequence.Count());
 		}
 
+		[Fact]
+		public void ToSequenceSingleElement()
+		{
+			IEnumerable<int> sequence = 1.ToSequence();
+			Assert.NotNull(sequence);
+			Assert.Equal(1, sequence.Count());
+			Assert.Equal(1, sequence.First());
+		}
+
+		[Fact]
+		public void ToSequenceNull()
+		{			
+			IEnumerable<string> sequence = default(string).ToSequence();
+			Assert.NotNull(sequence);
+			Assert.Equal(1, sequence.Count());
+			Assert.Equal(null, sequence.First());
+		}
+
+		[Fact]
+		public void ToSequenceSeveralElements()
+		{
+			IEnumerable<int> sequence = 1.ToSequence(2, 3, 4);
+			Assert.NotNull(sequence);
+			Assert.Equal(4, sequence.Count());
+			Assert.Equal(new int[] { 1, 2, 3, 4 }, sequence.ToArray());
+		}
+
+		[Fact]
+		public void ToSequenceSeveralElementsWithNullValues()
+		{
+			IEnumerable<string> sequence = "one".ToSequence(null, "two", null, "three");
+			Assert.NotNull(sequence);
+			Assert.Equal(5, sequence.Count());
+			Assert.Equal(new string[] { "one", null, "two", null, "three" }, sequence.ToArray());
+		}
+
 		class Item
 		{
 			public bool Visited { get; set; }

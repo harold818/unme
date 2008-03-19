@@ -41,6 +41,21 @@ namespace Unme.Common
 				throw new ArgumentOutOfRangeException("length");
 
 			return RepeatIterator(generator, length);
+		}		
+
+		/// <summary>
+		/// Creates a sequence containing the specified element, followed by all additional elements.
+		/// </summary>
+		/// <typeparam name="T">The type of element.</typeparam>
+		/// <param name="element">The element.</param>
+		/// <param name="others">The others.</param>
+		/// <returns></returns>
+		public static IEnumerable<T> ToSequence<T>(this T element, params T[] additionalElements)
+		{
+			yield return element;
+
+			foreach (T other in additionalElements)
+				yield return other;
 		}
 
 		private static IEnumerable<T> RepeatIterator<T>(Func<T> generator, int length)
