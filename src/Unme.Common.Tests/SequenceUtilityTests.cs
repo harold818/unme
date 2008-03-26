@@ -19,7 +19,7 @@ namespace Unme.Common.Tests
 		[Fact]
 		public void ForEachEnumeratesEntireCollection()
 		{
-			IEnumerable<Item> sequence = SequenceUtility.Repeat(() => new Item(), 3).ToList();
+			IEnumerable<Item> sequence = SequenceUtility.Repeat(() => new Item()).Take(3).ToList();
 			Assert.True(sequence.All(item => !item.Visited));
 			
 			sequence.ForEach(item => item.Visited = true);
@@ -29,8 +29,7 @@ namespace Unme.Common.Tests
 		[Fact]
 		public void RepeatValidatesArguments()
 		{
-			Assert.Throws<ArgumentNullException>(() => SequenceUtility.Repeat<int>(null, 1));
-			Assert.Throws<ArgumentOutOfRangeException>(() => SequenceUtility.Repeat(() => new Item(), 0));
+			Assert.Throws<ArgumentNullException>(() => SequenceUtility.Repeat<int>(null));
 		}
 
 		[Theory,
@@ -40,7 +39,7 @@ namespace Unme.Common.Tests
 		InlineData(24)]
 		public void RepeatSequenceIsSpecifiedLength(int length)
 		{
-			var sequence = SequenceUtility.Repeat(() => new Item(), length);
+			var sequence = SequenceUtility.Repeat(() => new Item()).Take(length);
 			Assert.Equal(length, sequence.Count());
 		}
 
@@ -55,8 +54,8 @@ namespace Unme.Common.Tests
 
 		[Fact]
 		public void ToSequenceNull()
-		{			
-			IEnumerable<string> sequence = default(string).ToSequence();
+		{
+			IEnumerable<string> sequence = ((string) null).ToSequence();
 			Assert.NotNull(sequence);
 			Assert.Equal(1, sequence.Count());
 			Assert.Equal(null, sequence.First());
@@ -65,7 +64,7 @@ namespace Unme.Common.Tests
 		[Fact]
 		public void ToSequenceSeveralElements()
 		{
-			IEnumerable<int> sequence = 1.ToSequence(2, 3, 4);
+			IEnumerable<int> sequence = SequenceUtility.ToSequence(1, 2, 3, 4);
 			Assert.NotNull(sequence);
 			Assert.Equal(4, sequence.Count());
 			Assert.Equal(new int[] { 1, 2, 3, 4 }, sequence.ToArray());
@@ -74,7 +73,7 @@ namespace Unme.Common.Tests
 		[Fact]
 		public void ToSequenceSeveralElementsWithNullValues()
 		{
-			IEnumerable<string> sequence = "one".ToSequence(null, "two", null, "three");
+			IEnumerable<string> sequence = SequenceUtility.ToSequence("one", null, "two", null, "three");
 			Assert.NotNull(sequence);
 			Assert.Equal(5, sequence.Count());
 			Assert.Equal(new string[] { "one", null, "two", null, "three" }, sequence.ToArray());
