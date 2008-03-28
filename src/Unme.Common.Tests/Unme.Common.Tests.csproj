@@ -60,6 +60,7 @@
     <Compile Include="SequenceUtilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopwatchUtilityTests.cs" />
+    <Compile Include="StringUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unme.Common\Unme.Common.csproj">
