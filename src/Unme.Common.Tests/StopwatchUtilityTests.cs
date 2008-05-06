@@ -1,29 +1,31 @@
 ﻿
 using System;
 using System.Diagnostics;
-using Xunit;
+using NUnit.Framework;
+using Unme.NUnit.Framework.Extensions;
 
 namespace Unme.Common.Tests
 {
+	[TestFixture]
 	public class StopwatchUtilityTests
 	{
-		[Fact]
+		[Test]
 		public void ScopedStartValidatesArgument()
 		{
-			Assert.Throws<ArgumentNullException>(() => StopwatchUtility.ScopedStart(null));
+			AssertUtility.Throws<ArgumentNullException>(() => StopwatchUtility.ScopedStart(null));
 		}
 
-		[Fact]
+		[Test]
 		public void ScopedStartStartsAndStopsStopwatch()
 		{
 			Stopwatch stopwatch = new Stopwatch();
-			Assert.False(stopwatch.IsRunning);
+			Assert.IsFalse(stopwatch.IsRunning);
 
 			using (stopwatch.ScopedStart())
-				Assert.True(stopwatch.IsRunning);
+				Assert.IsTrue(stopwatch.IsRunning);
 			
 			long n = stopwatch.ElapsedTicks;
-			Assert.False(stopwatch.IsRunning);
+			Assert.IsFalse(stopwatch.IsRunning);
 		}
 	}
 }

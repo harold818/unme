@@ -2,81 +2,83 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
-using XunitExt;
+using NUnit.Framework;
+using NUnit.Framework.Extensions;
+using Unme.NUnit.Framework.Extensions;
 
 namespace Unme.Common.Tests
 {
+	[TestFixture]
 	public class SequenceUtilityTests
 	{
-		[Fact]
+		[Test]
 		public void ForEachValidatesArguments()
 		{
-			Assert.Throws<ArgumentNullException>(() => ((IEnumerable<int>) null).ForEach(n => Console.WriteLine(n)));
-			Assert.Throws<ArgumentNullException>(() => (new[] { 1, 2, 3 }).ForEach(null));
+			AssertUtility.Throws<ArgumentNullException>(() => ((IEnumerable<int>) null).ForEach(n => Console.WriteLine(n)));
+			AssertUtility.Throws<ArgumentNullException>(() => (new[] { 1, 2, 3 }).ForEach(null));
 		}
 
-		[Fact]
+		[Test]
 		public void ForEachEnumeratesEntireCollection()
 		{
 			IEnumerable<Item> sequence = SequenceUtility.Repeat(() => new Item()).Take(3).ToList();
-			Assert.True(sequence.All(item => !item.Visited));
+			Assert.IsTrue(sequence.All(item => !item.Visited));
 			
 			sequence.ForEach(item => item.Visited = true);
-			Assert.True(sequence.All(item => item.Visited));
+			Assert.IsTrue(sequence.All(item => item.Visited));
 		}
 
-		[Fact]
+		[Test]
 		public void RepeatValidatesArguments()
 		{
-			Assert.Throws<ArgumentNullException>(() => SequenceUtility.Repeat<int>(null));
+			AssertUtility.Throws<ArgumentNullException>(() => SequenceUtility.Repeat<int>(null));
 		}
 
-		[Theory,
-		InlineData(1),
-		InlineData(2),
-		InlineData(3),
-		InlineData(24)]
+		[RowTest,
+		Row(1),
+		Row(2),
+		Row(3),
+		Row(24)]
 		public void RepeatSequenceIsSpecifiedLength(int length)
 		{
 			var sequence = SequenceUtility.Repeat(() => new Item()).Take(length);
-			Assert.Equal(length, sequence.Count());
+			Assert.AreEqual(length, sequence.Count());
 		}
 
-		[Fact]
+		[Test]
 		public void ToSequenceSingleElement()
 		{
 			IEnumerable<int> sequence = 1.ToSequence();
-			Assert.NotNull(sequence);
-			Assert.Equal(1, sequence.Count());
-			Assert.Equal(1, sequence.First());
+			Assert.IsNotNull(sequence);
+			Assert.AreEqual(1, sequence.Count());
+			Assert.AreEqual(1, sequence.First());
 		}
 
-		[Fact]
+		[Test]
 		public void ToSequenceNull()
 		{
 			IEnumerable<string> sequence = ((string) null).ToSequence();
-			Assert.NotNull(sequence);
-			Assert.Equal(1, sequence.Count());
-			Assert.Equal(null, sequence.First());
+			Assert.IsNotNull(sequence);
+			Assert.AreEqual(1, sequence.Count());
+			Assert.AreEqual(null, sequence.First());
 		}
 
-		[Fact]
+		[Test]
 		public void ToSequenceSeveralElements()
 		{
 			IEnumerable<int> sequence = SequenceUtility.ToSequence(1, 2, 3, 4);
-			Assert.NotNull(sequence);
-			Assert.Equal(4, sequence.Count());
-			Assert.Equal(new int[] { 1, 2, 3, 4 }, sequence.ToArray());
+			Assert.IsNotNull(sequence);
+			Assert.AreEqual(4, sequence.Count());
+			Assert.AreEqual(new int[] { 1, 2, 3, 4 }, sequence.ToArray());
 		}
 
-		[Fact]
+		[Test]
 		public void ToSequenceSeveralElementsWithNullValues()
 		{
 			IEnumerable<string> sequence = SequenceUtility.ToSequence("one", null, "two", null, "three");
-			Assert.NotNull(sequence);
-			Assert.Equal(5, sequence.Count());
-			Assert.Equal(new string[] { "one", null, "two", null, "three" }, sequence.ToArray());
+			Assert.IsNotNull(sequence);
+			Assert.AreEqual(5, sequence.Count());
+			Assert.AreEqual(new string[] { "one", null, "two", null, "three" }, sequence.ToArray());
 		}
 
 		class Item

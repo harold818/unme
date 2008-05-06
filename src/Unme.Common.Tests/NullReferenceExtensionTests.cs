@@ -1,45 +1,45 @@
 ﻿
 using System;
 using Unme.Common.NullReferenceExtension;
-using Xunit;
+using NUnit.Framework;
 
 namespace Unme.Common.Tests
 {
+	[TestFixture]
 	public class NullReferenceExtensionTests
 	{
-		[Fact]
+		[Test]
 		public void IfNotNullAction()
 		{
 			string foo = "bar";
-			int i = 0;
 			bool actionExecuted = false;
 			foo.IfNotNull((Action<string>) (s => actionExecuted = true));
 
-			Assert.True(actionExecuted);
+			Assert.IsTrue(actionExecuted);
 		}
 
-		[Fact]
+		[Test]
 		public void IfNotNullActionWithNullValue()
 		{
 			string foo = null;
 			bool actionExecuted = false;
 			foo.IfNotNull((Action<string>) (s => actionExecuted = true));
 
-			Assert.False(actionExecuted);
+			Assert.IsFalse(actionExecuted);
 		}
 
-		[Fact]
+		[Test]
 		public void IfNotNullFunc()
 		{
 			string foo = "Foo";
-			Assert.Equal("FooBar", foo.IfNotNull(s => String.Concat(s, "Bar")));
+			Assert.AreEqual("FooBar", foo.IfNotNull(s => String.Concat(s, "Bar")));
 		}
 
-		[Fact]
+		[Test]
 		public void IfNotNullFuncWithNullValue()
 		{
 			string foo = null;
-			Assert.Null(foo.IfNotNull(s => String.Concat(s, "Bar")));
+			Assert.IsNull(foo.IfNotNull(s => String.Concat(s, "Bar")));
 		}
 	}
 }
