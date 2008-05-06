@@ -1,48 +1,50 @@
 ﻿
 using System;
-using Xunit;
+using NUnit.Framework;
+using Unme.NUnit.Framework.Extensions;
 
 namespace Unme.Common.Tests
 {
+	[TestFixture]
 	public class ScopeTests
 	{
-		[Fact]
+		[Test]
 		public void ScopeCreateValidatesArgument()
 		{
-			Assert.Throws<ArgumentNullException>(() => Scope.Create(null));
+			AssertUtility.Throws<ArgumentNullException>(() => Scope.Create(null));
 		}
 
-		[Fact]
+		[Test]
 		public void ScopeCallsActionOnDispose()
 		{
 			bool called = false;
 			Action onDispose = () => called = true;
 			
 			var scope = Scope.Create(onDispose);
-			Assert.False(called);
+			Assert.IsFalse(called);
 			
 			scope.Dispose();
-			Assert.True(called);
+			Assert.IsTrue(called);
 		}
 
-		[Fact]
+		[Test]
 		public void ScopeCallsActionOnlyOnce()
 		{
 			int called = 0;
 			Action onDispose = () =>
 			{
-				Assert.True(called < 1);
+				Assert.IsTrue(called < 1);
 				called++;
 			};
 			
 			var scope = Scope.Create(onDispose);
-			Assert.Equal(0, called);
+			Assert.AreEqual(0, called);
 
 			scope.Dispose();
-			Assert.Equal(1, called);
+			Assert.AreEqual(1, called);
 
 			scope.Dispose(); scope.Dispose(); scope.Dispose();
-			Assert.Equal(1, called);
+			Assert.AreEqual(1, called);
 		}
 	}
 }

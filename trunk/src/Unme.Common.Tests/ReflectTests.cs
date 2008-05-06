@@ -1,25 +1,27 @@
 ﻿
 using System;
-using Xunit;
+using NUnit.Framework;
+using Unme.NUnit.Framework.Extensions;
 
 namespace Unme.Common.Tests
 {
+	[TestFixture]
 	public class ReflectTests
 	{
-		[Fact]
+		[Test]
 		public void GetPropertyNameValidatesArgument()
 		{
 			// method access expression
-			Assert.Throws<ArgumentException>(() => Reflect<string>.GetPropertyName(s => s.ToString()));
+			AssertUtility.Throws<ArgumentException>(() => Reflect<string>.GetPropertyName(s => s.ToString()));
 
 			// field access expression
-			Assert.Throws<ArgumentException>(() => Reflect<int>.GetPropertyName(s => String.Empty));
+			AssertUtility.Throws<ArgumentException>(() => Reflect<int>.GetPropertyName(s => String.Empty));
 		}
 
-		[Fact]
+		[Test]
 		public void GetPropertyName()
 		{
-			Assert.Equal("Length", Reflect<string>.GetPropertyName(s => s.Length));
+			Assert.AreEqual("Length", Reflect<string>.GetPropertyName(s => s.Length));
 		}
 	}
 }

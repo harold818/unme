@@ -1,19 +1,20 @@
 ﻿
-using Xunit;
-using XunitExt;
 using System;
+using NUnit.Framework;
+using NUnit.Framework.Extensions;
 
 namespace Unme.Common.Tests
 {
+	[TestFixture]
 	public class StringUtilityTests
 	{
-		[Theory,
-		InlineData(null, true),
-		InlineData("", true),
-		InlineData("foo", false)]
+		[RowTest,
+		Row(null, true),
+		Row("", true),
+		Row("foo", false)]
 		public void IsNullOrEmpty(string value, bool expectedResult)
 		{
-			Assert.Equal(expectedResult, value.IsNullOrEmpty());
+			Assert.AreEqual(expectedResult, value.IsNullOrEmpty());
 		}
 	}
 }
