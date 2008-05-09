@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="DictionaryUtility.cs" />
     <Compile Include="DisposableUtility.cs" />
+    <Compile Include="LazyObject.cs" />
     <Compile Include="LockTimeoutException.cs" />
     <Compile Include="NullReferenceExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
