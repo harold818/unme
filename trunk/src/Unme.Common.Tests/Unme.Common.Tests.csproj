@@ -43,14 +43,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DictionaryUtilityTests.cs" />
@@ -68,7 +61,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Unme.Common\Unme.Common.csproj">
       <Project>{EF099C1C-1352-43DE-ADF2-CFF3D8BEEED4}</Project>
-      <Name>Unme.Utility</Name>
+      <Name>Unme.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unme.NUnit.Framework.Extensions\Unme.NUnit.Framework.Extensions.csproj">
       <Project>{03D5E1E8-45E4-4CA4-BB2C-BC37CDF385B7}</Project>
