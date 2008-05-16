@@ -81,6 +81,40 @@ namespace Unme.Common.Tests
 			Assert.AreEqual(new string[] { "one", null, "two", null, "three" }, sequence.ToArray());
 		}
 
+		[Test]
+		public void ForEachWithIndex()
+		{
+			var array = new string[] { "one", "two", "three" };
+			int expectedIndex = 0;
+			array.ForEachWithIndex((value, index) => Assert.AreEqual(expectedIndex++, index));
+		}
+
+		[Test, ExpectedException(typeof(ArgumentNullException))]
+		public void ForEachWithIndex_SourceNull()
+		{
+			string[] array = null;
+			array.ForEachWithIndex((value, index) => Assert.Fail());
+		}
+
+		[Test, ExpectedException(typeof(ArgumentNullException))]
+		public void ForEachWithIndex_ActionNull()
+		{
+			new string[] { }.ForEachWithIndex(null);
+		}
+
+		[Test]
+		public void WithIndex()
+		{
+			var array = new string[] { "one", "two", "three" };
+			int expectedIndex = 0;
+
+			foreach (var pair in array.WithIndex())
+			{
+				Assert.AreEqual(pair.Second, array[expectedIndex]);
+				Assert.AreEqual(pair.First, expectedIndex++);
+			}
+		}
+
 		class Item
 		{
 			public bool Visited { get; set; }
