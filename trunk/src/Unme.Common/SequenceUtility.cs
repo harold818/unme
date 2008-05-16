@@ -1,7 +1,8 @@
 ﻿
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Unme.Common
 {
@@ -99,6 +100,140 @@ namespace Unme.Common
 			foreach (T other in additional)
 				yield return other;
 		}
+
+		/// <summary>
+		/// Concatenates a specified separator String between each converted element of a specified collection, 
+		/// yielding a single concatenated string. 
+		/// </summary>
+		public static string Join<T>(this IEnumerable<T> sequence, string separator)
+		{
+			return sequence.Join(separator, item => item.ToString());
+		}
+
+		/// <summary>
+		/// Concatenates a specified separator String between each converted element of a specified collection, 
+		/// yielding a single concatenated string. 
+		/// </summary>
+		public static string Join<T>(this IEnumerable<T> sequence, string separator, Func<T, string> conversion)
+		{
+			if (separator == null)
+				throw new ArgumentNullException("separator");
+			if (conversion == null)
+				throw new ArgumentNullException("conversion");
+
+			return String.Join(separator, sequence.Select(conversion).ToArray());
+		}
+
+		/// <summary>
+		/// Converts a sequence to a readonly collection of T.
+		/// </summary>
+		public static ReadOnlyCollection<T> ToReadOnly<T>(this IEnumerable<T> sequence)
+		{
+			if (sequence == null)
+				throw new ArgumentNullException("sequence");
+
+			return Array.AsReadOnly(sequence.ToArray());
+		}
+
+		/// <summary>
+		/// Concatenates the specified sequences.
+		/// </summary>
+		/// <param name="first">The first.</param>
+		/// <param name="second">The second.</param>
+		/// <param name="third">The third.</param>
+		/// <param name="additionalItems">The additional items.</param>
+		public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IEnumerable<T> second, IEnumerable<T> third, params IEnumerable<T>[] additionalItems)
+		{
+			if (second == null)
+				throw new ArgumentNullException("firstItem");
+			if (third == null)
+				throw new ArgumentNullException("secondItem");
+			if (additionalItems == null)
+				throw new ArgumentNullException("additionalItems");
+
+			first = first.Concat(second).Concat(third);
+			additionalItems.ForEach((item) => first = first.Concat((IEnumerable<T>) item));
+
+			return first;
+		}
+
+		/// <summary>
+		/// Returns a slice of the given source.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <param name="startIndex">The start index.</param>
+		/// <param name="size">The size.</param>
+		public static IEnumerable<T> Slice<T>(this IEnumerable<T> source, int startIndex, int size)
+		{
+			if (source == null)
+				throw new ArgumentNullException("source");
+
+			int count = source.Count();
+			if (startIndex < 0 || count < startIndex)
+				throw new ArgumentOutOfRangeException("startIndex");
+
+			if (size < 0 || startIndex + size > count)
+				throw new ArgumentOutOfRangeException("count");
+
+			return source.Skip(startIndex).Take(size);
+		}		
+
+		/// <summary>
+        /// Iterates the specified sequence returning arrays of each slice of <paramref name=”size”/> elements.
+        /// The last array may contain fewer that <paramref name=”size”/> elements.
+        /// </summary>
+        /// <typeparam name=”T”>The sequence element type.</typeparam>
+        /// <param name=”sequence”>The source sequence.</param>
+        /// <param name=”size”>The desired slice size.</param>
+        /// <returns>A sequence of arrays containing the elements from the specified sequence.</returns>
+        public static IEnumerable<T[]> Slices<T>(this IEnumerable<T> sequence, int size)
+        {
+            // validate arguments
+            if (sequence == null)
+                throw new ArgumentNullException("sequence");
+            if (size <= 0)
+                throw new ArgumentOutOfRangeException("size");
+
+            // return lazily evaluated iterator
+            return SliceIterator(sequence, size);
+        }
+
+        // SliceIterator: iterator implementation of Slice
+        private static IEnumerable<T[]> SliceIterator<T>(IEnumerable<T> sequence, int size)
+        {
+            // prepare the result array
+            int position = 0;
+            T[] resultArr = new T[size];
+
+            foreach (T item in sequence)
+            {
+                // NOTE: performing the following test at the beginning of the loop ensures that we do not needlessly
+                // create empty result arrays for sequences with even numbers of elements [(sequence.Count() % size) == 0]
+                if (position == size)
+                {
+                    // full result array; return to caller
+                    yield return resultArr;
+
+                    // create a new result array and reset position
+                    resultArr = new T[size];
+                    position = 0;
+                }
+
+                // store the current element in the result array
+                resultArr[position++] = item;
+            }
+
+            // no elements in source sequence
+            if (position == 0)
+                yield break;
+
+            // resize partial final slice
+            if (position < size)
+                Array.Resize(ref resultArr, position);
+
+            // return final slice
+            yield return resultArr;
+        }
 
 		private static IEnumerable<T> RepeatIterator<T>(Func<T> generator)
 		{
