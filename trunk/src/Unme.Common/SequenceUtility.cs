@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Unme.Common
@@ -24,6 +25,38 @@ namespace Unme.Common
 
 			foreach (var item in source)
 				action(item);
+		}
+
+		/// <summary>
+		/// Iterates the source applying the action with an index.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="source">The source.</param>
+		/// <param name="action">The action.</param>
+		public static void ForEachWithIndex<T>(this IEnumerable<T> source, Action<T, int> action)
+		{
+			if (source == null)
+				throw new ArgumentNullException("source");
+
+			if (action == null)
+				throw new ArgumentNullException("action");
+
+			WithIndex(source).ForEach(pair => action(pair.Second, pair.First));
+		}
+
+		/// <summary>
+		/// Iterates the source returning values with an index.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="source">The source.</param>
+		/// <returns></returns>
+		public static IEnumerable<Tuple<int, T>> WithIndex<T>(this IEnumerable<T> source)
+		{
+			if (source == null)
+				throw new ArgumentNullException("source");
+
+			int position = 0;
+			return source.Select((value) => Tuple.Create(position++, value));
 		}
 
 		/// <summary>
