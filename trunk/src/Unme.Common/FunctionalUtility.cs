@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace Unme.Common
 {
-	// TODO unit test
 	public static class FunctionalUtility
 	{
 		/// <summary>
@@ -19,12 +18,12 @@ namespace Unme.Common
 				if (!hasValue)
 				{
 					returnValue = generator();
-					hasValue = true;
+					hasValue = true;	
 				}
 
 				return returnValue;
 			};
-		}
+		}		
 
 		/// <summary>
 		/// Memoizes the given function.
@@ -47,6 +46,33 @@ namespace Unme.Common
 				{
 					output = generator(input);
 					cache.Add(keySelector(input), output);
+				}
+
+				return output;
+			};
+		}
+
+		/// <summary>
+		/// Memoizes the given function using the TInput1 argument as the key.
+		/// </summary>
+		public static Func<TInput1, TInput2, TOutput> Memoize<TInput1, TInput2, TOutput>(Func<TInput1, TInput2, TOutput> generator)
+		{
+			return Memoize<TInput1, TInput2, TInput1, TOutput>(generator, input1 => input1);
+		}
+
+		/// <summary>
+		/// Memoizes the given function.
+		/// </summary>
+		public static Func<TInput1, TInput2, TOutput> Memoize<TInput1, TInput2, TKey, TOutput>(Func<TInput1, TInput2, TOutput> generator, Func<TInput1, TKey> keySelector)
+		{
+			var cache = new Dictionary<TKey, TOutput>();
+			return (input1, input2) =>
+			{
+				TOutput output;
+				if (!cache.TryGetValue(keySelector(input1), out output))
+				{
+					output = generator(input1, input2);
+					cache.Add(keySelector(input1), output);
 				}
 
 				return output;
