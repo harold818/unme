@@ -44,10 +44,12 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DictionaryUtilityTests.cs" />
     <Compile Include="DisposableUtilityTests.cs" />
+    <Compile Include="EventUtilityTests.cs" />
     <Compile Include="FunctionalUtilityTests.cs" />
     <Compile Include="NullReferenceExtensionTests.cs" />
     <Compile Include="ReflectTests.cs" />
