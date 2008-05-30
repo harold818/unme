@@ -12,8 +12,8 @@
     <AssemblyName>Unme.Common</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\..\Unme.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Unme.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,10 +37,13 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DictionaryUtility.cs" />
     <Compile Include="DisposableUtility.cs" />
+    <Compile Include="EventUtility.cs" />
     <Compile Include="LazyObject.cs" />
     <Compile Include="FunctionalUtility.cs" />
     <Compile Include="LockTimeoutException.cs" />
@@ -54,11 +57,11 @@
     <Compile Include="TimedLock.cs" />
     <Compile Include="Tuple.cs" />
   </ItemGroup>
-	<ItemGroup>
-		<None Include="..\..\Unme.snk">
-			<Link>Unme.snk</Link>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Unme.snk">
+      <Link>Unme.snk</Link>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
