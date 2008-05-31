@@ -7,7 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unme.Common.Tests", "Unme.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unme.Using", "Unme.Using\Unme.Using.csproj", "{55FBE14E-3508-44C4-A51C-49A5C803C2AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unme.NUnit.Framework.Extensions", "Unme.NUnit.Framework.Extensions\Unme.NUnit.Framework.Extensions.csproj", "{03D5E1E8-45E4-4CA4-BB2C-BC37CDF385B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unme.MbUnit.Framework.Extensions", "Unme.NUnit.Framework.Extensions\Unme.MbUnit.Framework.Extensions.csproj", "{03D5E1E8-45E4-4CA4-BB2C-BC37CDF385B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90DA33D1-F4EB-48EC-A041-2C9A1C1A677E}"
+	ProjectSection(SolutionItems) = preProject
+		..\Unme.build = ..\Unme.build
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,8 @@
 ﻿
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 
-namespace Unme.NUnit.Framework.Extensions
+namespace Unme.MbUnit.Framework.Extensions
 {
 	public static class AssertUtility
 	{
@@ -22,7 +22,6 @@ namespace Unme.NUnit.Framework.Extensions
 			{
 				Assert.AreEqual(typeof(T), ex.GetType());
 			}
-
 		}
 	}
 }

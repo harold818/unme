@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<project default="all">
+
+	<property name ="project.name" value="${path::get-file-name(directory::get-current-directory())}" />
+	<property name ="path.lib" value="lib" />
+	<property name="path.build" value="build" />
+	<property name="path.framework" value="${environment::get-variable('SYSTEMROOT')}\Microsoft.NET\Framework\v3.5" />
+	<property name="path.nantcontrib" value="${environment::get-variable('NANTCONTRIB_HOME')}\bin\NAnt.Contrib.Tasks.dll" />
+	<property name="path.mbunit.console" value="${environment::get-variable('MBUNIT_HOME')}\bin\MbUnit.Cons.exe" />
+	<property name="path.ncover.console" value="${environment::get-variable('NCOVER_HOME')}\NCover.Console.exe" />	
+	<property name="path.ncoverexplorer.console" value="${environment::get-variable('NCOVEREXPLORER_HOME')}\ncoverexplorer.console.exe" />
+	<property name="path.ncoverexplorer.tasks" value="${path.lib}\nant\NCoverExplorer.NAntTasks.dll" />
+
+	<target name="all" depends="clean, build, ncover" />
+
+	<target name="build">
+		<exec program="${path.framework}\msbuild.exe" failonerror="true">
+			<arg value="src\Unme.sln"/>
+			<arg line="/p:Configuration=Release"/>
+		</exec>
+	</target>
+
+	<target name="clean">
+		<foreach item="Folder" property="foldername">
+			<in>
+				<items basedir="src">
+					<include name="*"></include>
+					<exclude name="."></exclude>
+				</items>
+			</in>
+			<do>
+				<delete dir="${foldername}\bin" />
+				<delete dir="${foldername}\obj" />
+			</do>
+		</foreach>
+		<delete dir="${path.build}" />
+	</target>
+
+	<target name="ncover" depends="build">
+		<loadtasks assembly="${path.nantcontrib}"/>
+		<loadtasks assembly="${path.ncoverexplorer.tasks}"/>		
+
+		<!-- Ensure build output path exists -->
+		<mkdir dir="build" unless="${directory::exists('build')}" />
+
+		<!-- Try/Finally block to ensure that TypeMock gets unlinked from NCover at the end -->
+		<property name="rantests" value="false" />
+		<foreach item="Folder" property="foldername">
+			<in>
+				<items>
+					<include name="src/*.Tests" />
+					<include name="tests/*.Tests" />
+					<include name="src/*.UnitTests" />
+					<include name="tests/*.UnitTests" />
+				</items>
+			</in>
+			<do>							
+				<property name="project" value="${path::get-file-name(foldername)}" />				
+				<if test="${file::exists(path::combine(foldername, 'bin\Release\' + project + '.dll'))}">
+					<exec program="${path.ncover.console}">
+						<arg value="${path.mbunit.console}" />
+						<arg line ="/rf:build /rnf:${project}.MbUnit ${foldername}\bin\Release\${project}.dll /rt:Xml" />						
+						<arg line="//l build\${project}.NCover.log //x build\${project}.NCover.xml //a ${project}" />						
+					</exec>
+					<property name="rantests" value="true" overwrite="true" />
+				</if>
+				<echo message="Test assembly &quot;${path::combine(foldername, 'bin\Release\' + project + '.dll')}&quot; does not exist!" unless="${file::exists(path::combine(foldername, 'bin\Release\' + project + '.dll'))}" />
+			</do>
+		</foreach>
+
+		<!-- Merge the coverage files together and get prettier output -->
+		<ncoverexplorer
+			outputDir="${path.build}"
+			program="${path.ncoverexplorer.console}"
+			projectName="${project.name}"
+			reportType="4"
+			xmlReportName="${project.name}.NCoverReport.xml"
+			showExcluded="True"
+			satisfactoryCoverage="90"
+			if="${bool::parse(rantests)}"
+			failonerror="true">
+			<fileset>
+				<include name="${path.build}\*.NCover.xml" />
+			</fileset>
+		</ncoverexplorer>
+	</target>
+
+</project>
