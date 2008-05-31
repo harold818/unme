@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
-using NUnit.Framework.Extensions;
-using Unme.NUnit.Framework.Extensions;
+using MbUnit.Framework;
+using Unme.MbUnit.Framework.Extensions;
 using System.Collections.ObjectModel;
 
 namespace Unme.Common.Tests

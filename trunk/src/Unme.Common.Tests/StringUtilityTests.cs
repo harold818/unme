@@ -1,7 +1,6 @@
 ﻿
 using System;
-using NUnit.Framework;
-using NUnit.Framework.Extensions;
+using MbUnit.Framework;
 
 namespace Unme.Common.Tests
 {

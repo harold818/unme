@@ -1,8 +1,8 @@
 ﻿
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using System.Threading;
-using Unme.NUnit.Framework.Extensions;
+using Unme.MbUnit.Framework.Extensions;
 
 namespace Unme.Common.Tests
 {
