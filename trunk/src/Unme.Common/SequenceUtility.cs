@@ -139,22 +139,22 @@ namespace Unme.Common
 		/// </summary>
 		/// <param name="first">The first.</param>
 		/// <param name="second">The second.</param>
-		/// <param name="third">The third.</param>
 		/// <param name="additionalItems">The additional items.</param>
-		public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IEnumerable<T> second, IEnumerable<T> third, params IEnumerable<T>[] additionalItems)
-		{
-			if (second == null)
-				throw new ArgumentNullException("second");
-			if (third == null)
-				throw new ArgumentNullException("third");
-			if (additionalItems == null)
-				throw new ArgumentNullException("additionalItems");
+        public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IEnumerable<T> second, params IEnumerable<T>[] additionalItems)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+            if (additionalItems == null)
+                throw new ArgumentNullException("additionalItems");
 
-			first = first.Concat(second).Concat(third);
-			additionalItems.ForEach(item => first = first.Concat(item));
+            first = Enumerable.Concat(first, second);
+            additionalItems.ForEach((item) => first = first.Concat((IEnumerable<T>)item));
 
-			return first;
-		}
+            return first;
+        }
+
 
 		/// <summary>
 		/// Returns a slice of the given source.
