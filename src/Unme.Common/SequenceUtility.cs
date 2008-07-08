@@ -57,7 +57,7 @@ namespace Unme.Common
 				throw new ArgumentNullException("source");
 
 			int position = 0;
-			return source.Select((value) => Tuple.Create(position++, value));
+			return source.Select(value => Tuple.Create(position++, value));
 		}
 
 		/// <summary>
@@ -79,7 +79,6 @@ namespace Unme.Common
 		/// </summary>
 		/// <typeparam name="T">The type of element.</typeparam>
 		/// <param name="element">The element.</param>
-		/// <param name="others">The others.</param>
 		/// <returns>An enumerable sequence of the specified elements</returns>
 		public static IEnumerable<T> ToSequence<T>(this T element)
 		{
@@ -91,7 +90,7 @@ namespace Unme.Common
 		/// </summary>
 		/// <typeparam name="T">The type of elements.</typeparam>
 		/// <param name="element">The first element.</param>
-		/// <param name="others">Additional elements.</param>
+		/// <param name="additional">Additional elements.</param>
 		/// <returns>An enumerable sequence of the specified elements.</returns>
 		public static IEnumerable<T> ToSequence<T>(T element, params T[] additional)
 		{
@@ -145,14 +144,14 @@ namespace Unme.Common
 		public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IEnumerable<T> second, IEnumerable<T> third, params IEnumerable<T>[] additionalItems)
 		{
 			if (second == null)
-				throw new ArgumentNullException("firstItem");
+				throw new ArgumentNullException("second");
 			if (third == null)
-				throw new ArgumentNullException("secondItem");
+				throw new ArgumentNullException("third");
 			if (additionalItems == null)
 				throw new ArgumentNullException("additionalItems");
 
 			first = first.Concat(second).Concat(third);
-			additionalItems.ForEach((item) => first = first.Concat((IEnumerable<T>) item));
+			additionalItems.ForEach(item => first = first.Concat(item));
 
 			return first;
 		}
@@ -173,7 +172,7 @@ namespace Unme.Common
 				throw new ArgumentOutOfRangeException("startIndex");
 
 			if (size < 0 || startIndex + size > count)
-				throw new ArgumentOutOfRangeException("count");
+				throw new ArgumentOutOfRangeException("size");
 
 			return source.Skip(startIndex).Take(size);
 		}		
