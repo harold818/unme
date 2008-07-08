@@ -30,7 +30,7 @@ namespace Unme.Common
 		/// </summary>
 		public static Func<TInput, TOutput> Memoize<TInput, TOutput>(Func<TInput, TOutput> generator)
 		{
-			return Memoize<TInput, TInput, TOutput>(generator, input => input);
+			return Memoize(generator, input => input);
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace Unme.Common
 		/// </summary>
 		public static Func<TInput1, TInput2, TOutput> Memoize<TInput1, TInput2, TOutput>(Func<TInput1, TInput2, TOutput> generator)
 		{
-			return Memoize<TInput1, TInput2, TInput1, TOutput>(generator, input1 => input1);
+			return Memoize(generator, input1 => input1);
 		}
 
 		/// <summary>

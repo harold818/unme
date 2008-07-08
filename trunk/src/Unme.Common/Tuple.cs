@@ -53,7 +53,7 @@ namespace Unme.Common
 		/// </returns>
 		public override bool Equals(object obj)
 		{
-			return this.Equals(obj as Tuple<TFirst, TSecond>);
+			return Equals(obj as Tuple<TFirst, TSecond>);
 		}
 
 		/// <summary>

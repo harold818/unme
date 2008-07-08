@@ -27,11 +27,11 @@ namespace Unme.Common
 			// get MemberExpression from the lambda expression
 			MemberExpression expr = propertyAccessExpression.Body as MemberExpression;
 			if (expr == null)
-				throw new ArgumentException("Expression must be a property access.", "propertyAccess");
+				throw new ArgumentException("Expression must be a property access.", "propertyAccessExpression");
 
 			// verify that the member is a property
 			if ((expr.Member.MemberType & MemberTypes.Property) != MemberTypes.Property)
-				throw new ArgumentException("Accessed member must be a property.", "propertyAccess");
+				throw new ArgumentException("Accessed member must be a property.", "propertyAccessExpression");
 
 			return expr.Member.Name;
 		}
