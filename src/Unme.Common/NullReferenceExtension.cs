@@ -33,5 +33,20 @@ namespace Unme.Common.NullReferenceExtension
 		{
 			return element != null ? func(element) : default(TResult);
 		}
+
+		/// <summary>
+		/// Performs the specified func and returns the result if the element is not null.
+		/// Returns the specified default value if the element is null.
+		/// </summary>
+		/// <typeparam name="T">Type of the element.</typeparam>
+		/// <typeparam name="TResult">The type of the result.</typeparam>
+		/// <param name="element">The element.</param>
+		/// <param name="func">The func to perform.</param>
+		/// <param name="defaultValue">The value to return if the element is null.</param>
+		/// <returns></returns>
+		public static TResult IfNotNull<T, TResult>(this T element, Func<T, TResult> func, TResult defaultValue)
+		{
+			return element != null ? func(element) : defaultValue;
+		}
 	}
 }

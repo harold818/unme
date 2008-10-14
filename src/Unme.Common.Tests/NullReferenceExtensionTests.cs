@@ -41,5 +41,22 @@ namespace Unme.Common.Tests
 			string foo = null;
 			Assert.IsNull(foo.IfNotNull(s => String.Concat(s, "Bar")));
 		}
+
+		[Test]
+		public void IfNotNull_ValueType()
+		{
+			int test = 5;
+			int test2 = 0;
+			test.IfNotNull(v => test2 = v);
+
+			Assert.AreEqual(5, test2);
+		}
+
+		[Test]
+		public void IfNotNull_DefaultValue()
+		{
+			string test = null;
+			Assert.AreEqual("foo", test.IfNotNull(v => v.ToString(), "foo"));
+		}
 	}
 }
