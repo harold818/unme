@@ -28,6 +28,46 @@ namespace Unme.Common
 				action(item);
 		}
 
+        public static void ForEach<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second, Action<T1, T2> action)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+            if (action == null)
+                throw new ArgumentNullException("action");
+
+            ForEach(first, second, (left, right) => { action(left, right); return true; });
+        }
+
+        public static void ForEach<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, bool> func)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+            if (func == null)
+                throw new ArgumentNullException("func");
+
+            var enumerator1 = first.GetEnumerator();
+            var enumerator2 = second.GetEnumerator();
+            bool continueIterating = true;
+
+            while (continueIterating)
+            {
+                switch (Convert.ToByte(enumerator1.MoveNext()) | (Convert.ToByte(enumerator2.MoveNext()) << 1))
+                {
+                    case 0:
+                        return;
+                    case 3:
+                        continueIterating = func(enumerator1.Current, enumerator2.Current);
+                        break;
+                    default:
+                        throw new ArgumentException("Sequences were of differing lengths.");
+                }
+            }
+        }
+
 		/// <summary>
 		/// Iterates the source applying the action with an index.
 		/// </summary>
