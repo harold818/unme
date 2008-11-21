@@ -58,5 +58,27 @@ namespace Unme.Common.Tests
 			string test = null;
 			Assert.AreEqual("foo", test.IfNotNull(v => v.ToString(), "foo"));
 		}
+
+        [Test]
+        public void Is_NotConvertible()
+        {
+            string fooBar = "foo";
+            object bar = 2;
+
+            bar.Is<string>(item => fooBar += item);
+
+            Assert.AreEqual("foo", fooBar);
+        }
+
+        [Test]
+        public void Is_Convertible()
+        {
+            string fooBar = "foo";
+            object bar = "bar";
+
+            bar.Is<string>(item => fooBar += item);
+
+            Assert.AreEqual("foobar", fooBar);
+        }
 	}
 }

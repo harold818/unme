@@ -289,7 +289,26 @@ namespace Unme.Common.Tests
 		public void Slice_StartIndexTooLarge()
 		{
 			new int[] { 1, 2, 3, 4, 5 }.Slice(5, 1);
-		}			
+		}
+
+        [Test, ExpectedArgumentException]
+        public void ForEach_DifferingLengths()
+        {
+            IEnumerable<int> first = new int[] { 0 };
+            IEnumerable<int> second = new int[] { 0, 1 };
+            first.ForEach(second, (left, right) => { });
+        }
+
+        [Test]
+        public void ForEach_VerifyAllElementIterated()
+        {
+            int sum = 0;
+            IEnumerable<int> first = new int[] { 1, 1 };
+            IEnumerable<int> second = new int[] { 2, 2 };
+            first.ForEach(second, (left, right) => { sum += left + right; });
+
+            Assert.AreEqual(sum, 6);
+        }
 
 		class Item
 		{
