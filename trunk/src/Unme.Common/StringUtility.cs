@@ -21,20 +21,20 @@ namespace Unme.Common
 			return String.IsNullOrEmpty(str);
 		}
 
-        /// <summary>
-        /// Wraps the specified string in double quotes.
-        /// </summary>
-        public static string DoubleQuote(this string str)
-        {
-            return String.Format(CultureInfo.InvariantCulture, @"""{0}""", str);
-        }
+		/// <summary>
+		/// Wraps the specified string in double quotes.
+		/// </summary>
+		public static string DoubleQuote(this string str)
+		{
+			return String.Format(CultureInfo.InvariantCulture, @"""{0}""", str);
+		}
 
-        /// <summary>
-        /// Wraps the specified string in single quotes.
-        /// </summary>
-        public static string SingleQuote(this string str)
-        {
-            return String.Format(CultureInfo.InvariantCulture, "'{0}'", str);
-        }
+		/// <summary>
+		/// Wraps the specified string in single quotes.
+		/// </summary>
+		public static string SingleQuote(this string str)
+		{
+			return String.Format(CultureInfo.InvariantCulture, "'{0}'", str);
+		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Runtime.Serialization;
 
 namespace Unme.Common
 {

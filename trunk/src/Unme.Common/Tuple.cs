@@ -7,20 +7,21 @@ namespace Unme.Common
 	/// <summary>
 	/// A Pair Tuple.
 	/// </summary>
+	public static class Tuple
+	{
+		public static Tuple<T1, T2> Create<T1, T2>(T1 first, T2 second)
+		{
+			return new Tuple<T1, T2>(first, second);
+		}
+	}
+
+	/// <summary>
+	/// A Pair Tuple.
+	/// </summary>
 	[DebuggerDisplay("{First}, {Second}")]
 	[Serializable]
 	public class Tuple<TFirst, TSecond> : IEquatable<Tuple<TFirst, TSecond>>
 	{
-		/// <summary>
-		/// The first element
-		/// </summary>
-		public TFirst First { get; private set; }
-
-		/// <summary>
-		/// The second element
-		/// </summary>
-		public TSecond Second { get; private set; }
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Tuple&lt;T1, T2&gt;"/> struct.
 		/// </summary>
@@ -31,6 +32,16 @@ namespace Unme.Common
 			First = first;
 			Second = second;
 		}
+
+		/// <summary>
+		/// The first element
+		/// </summary>
+		public TFirst First { get; private set; }
+
+		/// <summary>
+		/// The second element
+		/// </summary>
+		public TSecond Second { get; private set; }
 
 		/// <summary>
 		/// Indicates whether the current object is equal to another object of the same type.
@@ -66,16 +77,5 @@ namespace Unme.Common
 		{
 			return First.GetHashCode() ^ Second.GetHashCode();
 		}
-	}
-
-	/// <summary>
-	/// A Pair Tuple.
-	/// </summary>
-	public static class Tuple
-	{
-		public static Tuple<T1, T2> Create<T1, T2>(T1 first, T2 second)
-		{
-			return new Tuple<T1, T2>(first, second);
-		}
-	}
+	}	
 }

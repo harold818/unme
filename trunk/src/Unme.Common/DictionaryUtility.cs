@@ -4,11 +4,15 @@ using System.Collections.Generic;
 
 namespace Unme.Common
 {
+	/// <summary>
+	/// IDictinary&lt;TKey, TValue&gt; utility methods.
+	/// </summary>
+	/// <remarks>
+	/// Implementations of IDictionary&lt;TKey, TValue&gt; can vary in whether they allow key 
+	/// to be a null reference. See: http://msdn2.microsoft.com/en-us/library/zyxt2e2h.aspx
+	/// </remarks>
 	public static class DictionaryUtility
 	{
-		// Note: Implementations of IDictionary<TKey, TValue> can vary in whether they allow key
-		// to be a null reference. See: http://msdn2.microsoft.com/en-us/library/zyxt2e2h.aspx
-
 		public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
 		{
 			if (dictionary == null)
