@@ -9,6 +9,12 @@ namespace Unme.Common
 	/// </summary>
 	public sealed class Scope : IDisposable
 	{
+		private Action _onDispose;
+
+		private Scope() 
+		{ 
+		}
+
 		/// <summary>
 		/// Returns an IDisposable instance that will invoke the specified action when disposed.
 		/// </summary>
@@ -32,9 +38,5 @@ namespace Unme.Common
 			if ((dispose = Interlocked.Exchange(ref _onDispose, null)) != null)
 				dispose();
 		}
-
-		private Scope() { }
-
-		Action _onDispose;
 	}
 }

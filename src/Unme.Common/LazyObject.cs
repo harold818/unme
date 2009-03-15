@@ -6,13 +6,16 @@ namespace Unme.Common
 {
 	public sealed class LazyObject<T> : IDisposable
 	{
-		public static LazyObject<T> Create(Func<T> generator)
-		{
-			if (generator == null)
-				throw new ArgumentNullException("generator");
+		private object _lockGenereration;
+		private volatile bool _initialized;
+		private T _value;
+		private Func<T> _generator;
 
-			return new LazyObject<T>(generator);
-		}
+		private LazyObject(Func<T> generator)
+		{
+			_lockGenereration = new object();
+			_generator = generator;
+		}		
 
 		public T Value
 		{
@@ -37,6 +40,14 @@ namespace Unme.Common
 			}
 		}
 
+		public static LazyObject<T> Create(Func<T> generator)
+		{
+			if (generator == null)
+				throw new ArgumentNullException("generator");
+
+			return new LazyObject<T>(generator);
+		}
+
 		public void Dispose()
 		{
 			_initialized = true;
@@ -48,17 +59,6 @@ namespace Unme.Common
 				disposable.Dispose();
 
 			_value = default(T);
-		}
-
-		private LazyObject(Func<T> generator)
-		{
-			_lockGenereration = new object();
-			_generator = generator;
-		}
-
-		object _lockGenereration;
-		volatile bool _initialized;
-		T _value;
-		Func<T> _generator;
+		}		
 	}
 }

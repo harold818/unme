@@ -11,6 +11,11 @@ namespace Unme.Common
 	{
 		private object _target;
 
+		private TimedLock(object o)
+		{
+			_target = o;
+		}
+
 		public static TimedLock Lock(object o)
 		{
 			return Lock(o, TimeSpan.FromSeconds(10));
@@ -29,11 +34,6 @@ namespace Unme.Common
 		public void Dispose()
 		{
 			Monitor.Exit(_target);
-		}
-
-		private TimedLock(object o)
-		{
-			_target = o;
 		}
 	}	
 }

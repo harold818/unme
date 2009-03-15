@@ -28,50 +28,49 @@ namespace Unme.Common
 				action(item);
 		}
 
-        public static void ForEach<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second, Action<T1, T2> action)
-        {
-            if (first == null)
-                throw new ArgumentNullException("first");
-            if (second == null)
-                throw new ArgumentNullException("second");
-            if (action == null)
-                throw new ArgumentNullException("action");
+		public static void ForEach<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second, Action<T1, T2> action)
+		{
+			if (first == null)
+				throw new ArgumentNullException("first");
+			if (second == null)
+				throw new ArgumentNullException("second");
+			if (action == null)
+				throw new ArgumentNullException("action");
 
-            ForEach(first, second, (left, right) => { action(left, right); return true; });
-        }
+			ForEach(first, second, (left, right) => { action(left, right); return true; });
+		}
 
-        public static void ForEach<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, bool> func)
-        {
-            if (first == null)
-                throw new ArgumentNullException("first");
-            if (second == null)
-                throw new ArgumentNullException("second");
-            if (func == null)
-                throw new ArgumentNullException("func");
+		public static void ForEach<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, bool> func)
+		{
+			if (first == null)
+				throw new ArgumentNullException("first");
+			if (second == null)
+				throw new ArgumentNullException("second");
+			if (func == null)
+				throw new ArgumentNullException("func");
 
-            var enumerator1 = first.GetEnumerator();
-            var enumerator2 = second.GetEnumerator();
-            bool continueIterating = true;
+			var enumerator1 = first.GetEnumerator();
+			var enumerator2 = second.GetEnumerator();
+			bool continueIterating = true;
 
-            while (continueIterating)
-            {
-                switch (Convert.ToByte(enumerator1.MoveNext()) | (Convert.ToByte(enumerator2.MoveNext()) << 1))
-                {
-                    case 0:
-                        return;
-                    case 3:
-                        continueIterating = func(enumerator1.Current, enumerator2.Current);
-                        break;
-                    default:
-                        throw new ArgumentException("Sequences were of differing lengths.");
-                }
-            }
-        }
+			while (continueIterating)
+			{
+				switch (Convert.ToByte(enumerator1.MoveNext()) | (Convert.ToByte(enumerator2.MoveNext()) << 1))
+				{
+					case 0:
+						return;
+					case 3:
+						continueIterating = func(enumerator1.Current, enumerator2.Current);
+						break;
+					default:
+						throw new ArgumentException("Sequences were of differing lengths.");
+				}
+			}
+		}
 
 		/// <summary>
 		/// Iterates the source applying the action with an index.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
 		/// <param name="source">The source.</param>
 		/// <param name="action">The action.</param>
 		public static void ForEachWithIndex<T>(this IEnumerable<T> source, Action<T, int> action)
@@ -88,7 +87,6 @@ namespace Unme.Common
 		/// <summary>
 		/// Iterates the source returning values with an index.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
 		/// <param name="source">The source.</param>
 		/// <returns></returns>
 		public static IEnumerable<Tuple<int, T>> WithIndex<T>(this IEnumerable<T> source)
@@ -112,7 +110,7 @@ namespace Unme.Common
 				throw new ArgumentNullException("generator");
 
 			return RepeatIterator(generator);
-		}		
+		}
 
 		/// <summary>
 		/// Creates a sequence containing the specified element.
@@ -180,21 +178,20 @@ namespace Unme.Common
 		/// <param name="first">The first.</param>
 		/// <param name="second">The second.</param>
 		/// <param name="additionalItems">The additional items.</param>
-        public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IEnumerable<T> second, params IEnumerable<T>[] additionalItems)
-        {
-            if (first == null)
-                throw new ArgumentNullException("first");
-            if (second == null)
-                throw new ArgumentNullException("second");
-            if (additionalItems == null)
-                throw new ArgumentNullException("additionalItems");
+		public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IEnumerable<T> second, params IEnumerable<T>[] additionalItems)
+		{
+			if (first == null)
+				throw new ArgumentNullException("first");
+			if (second == null)
+				throw new ArgumentNullException("second");
+			if (additionalItems == null)
+				throw new ArgumentNullException("additionalItems");
 
-            first = Enumerable.Concat(first, second);
-            additionalItems.ForEach((item) => first = first.Concat((IEnumerable<T>)item));
+			first = Enumerable.Concat(first, second);
+			additionalItems.ForEach((item) => first = first.Concat((IEnumerable<T>) item));
 
-            return first;
-        }
-
+			return first;
+		}
 
 		/// <summary>
 		/// Returns a slice of the given source.
@@ -215,64 +212,64 @@ namespace Unme.Common
 				throw new ArgumentOutOfRangeException("size");
 
 			return source.Skip(startIndex).Take(size);
-		}		
+		}
 
 		/// <summary>
-        /// Iterates the specified sequence returning arrays of each slice of <paramref name=”size”/> elements.
-        /// The last array may contain fewer that <paramref name=”size”/> elements.
-        /// </summary>
-        /// <typeparam name=”T”>The sequence element type.</typeparam>
-        /// <param name=”sequence”>The source sequence.</param>
-        /// <param name=”size”>The desired slice size.</param>
-        /// <returns>A sequence of arrays containing the elements from the specified sequence.</returns>
-        public static IEnumerable<T[]> Slices<T>(this IEnumerable<T> sequence, int size)
-        {
-            // validate arguments
-            if (sequence == null)
-                throw new ArgumentNullException("sequence");
-            if (size <= 0)
-                throw new ArgumentOutOfRangeException("size");
+		/// Iterates the specified sequence returning arrays of each slice of <paramref name="size"/> elements.
+		/// The last array may contain fewer that <paramref name="size"/> elements.
+		/// </summary>
+		/// <typeparam name="T">The sequence element type.</typeparam>
+		/// <param name="sequence">The source sequence.</param>
+		/// <param name="size">The desired slice size.</param>
+		/// <returns>A sequence of arrays containing the elements from the specified sequence.</returns>
+		public static IEnumerable<T[]> Slices<T>(this IEnumerable<T> sequence, int size)
+		{
+			// validate arguments
+			if (sequence == null)
+				throw new ArgumentNullException("sequence");
+			if (size <= 0)
+				throw new ArgumentOutOfRangeException("size");
 
-            // return lazily evaluated iterator
-            return SliceIterator(sequence, size);
-        }
+			// return lazily evaluated iterator
+			return SliceIterator(sequence, size);
+		}
 
-        // SliceIterator: iterator implementation of Slice
-        private static IEnumerable<T[]> SliceIterator<T>(IEnumerable<T> sequence, int size)
-        {
-            // prepare the result array
-            int position = 0;
-            T[] resultArr = new T[size];
+		// SliceIterator: iterator implementation of Slice
+		private static IEnumerable<T[]> SliceIterator<T>(IEnumerable<T> sequence, int size)
+		{
+			// prepare the result array
+			int position = 0;
+			T[] resultArr = new T[size];
 
-            foreach (T item in sequence)
-            {
-                // NOTE: performing the following test at the beginning of the loop ensures that we do not needlessly
-                // create empty result arrays for sequences with even numbers of elements [(sequence.Count() % size) == 0]
-                if (position == size)
-                {
-                    // full result array; return to caller
-                    yield return resultArr;
+			foreach (T item in sequence)
+			{
+				// NOTE: performing the following test at the beginning of the loop ensures that we do not needlessly
+				// create empty result arrays for sequences with even numbers of elements [(sequence.Count() % size) == 0]
+				if (position == size)
+				{
+					// full result array; return to caller
+					yield return resultArr;
 
-                    // create a new result array and reset position
-                    resultArr = new T[size];
-                    position = 0;
-                }
+					// create a new result array and reset position
+					resultArr = new T[size];
+					position = 0;
+				}
 
-                // store the current element in the result array
-                resultArr[position++] = item;
-            }
+				// store the current element in the result array
+				resultArr[position++] = item;
+			}
 
-            // no elements in source sequence
-            if (position == 0)
-                yield break;
+			// no elements in source sequence
+			if (position == 0)
+				yield break;
 
-            // resize partial final slice
-            if (position < size)
-                Array.Resize(ref resultArr, position);
+			// resize partial final slice
+			if (position < size)
+				Array.Resize(ref resultArr, position);
 
-            // return final slice
-            yield return resultArr;
-        }
+			// return final slice
+			yield return resultArr;
+		}
 
 		private static IEnumerable<T> RepeatIterator<T>(Func<T> generator)
 		{

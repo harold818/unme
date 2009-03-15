@@ -49,16 +49,16 @@ namespace Unme.Common.NullReferenceExtension
 			return element != null ? func(element) : defaultValue;
 		}
 
-        /// <summary>
-        /// Perfom the specified action on the element if it is convertible to type TTarget.
-        /// </summary>
-        public static void Is<TTarget>(this object element, Action<TTarget> action) where TTarget : class
-        {
-            if (action == null)
-                throw new ArgumentNullException("action");
+		/// <summary>
+		/// Perfom the specified action on the element if it is convertible to type TTarget.
+		/// </summary>
+		public static void Is<TTarget>(this object element, Action<TTarget> action) where TTarget : class
+		{
+			if (action == null)
+				throw new ArgumentNullException("action");
 
-            var convertedItem = element as TTarget;
-            convertedItem.IfNotNull(item => action(item));
-        }
+			var convertedItem = element as TTarget;
+			convertedItem.IfNotNull(item => action(item));
+		}
 	}
 }
