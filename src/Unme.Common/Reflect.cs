@@ -1,4 +1,4 @@
-﻿
+﻿#if !WindowsCE
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -37,3 +37,4 @@ namespace Unme.Common
 		}
 	}
 }
+#endif

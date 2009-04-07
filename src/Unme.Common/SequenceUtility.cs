@@ -162,14 +162,14 @@ namespace Unme.Common
 		}
 
 		/// <summary>
-		/// Converts a sequence to a readonly collection of T.
+		/// Converts a sequence to a readonly collection of &lt;T&gt;.
 		/// </summary>
 		public static ReadOnlyCollection<T> ToReadOnly<T>(this IEnumerable<T> sequence)
 		{
 			if (sequence == null)
 				throw new ArgumentNullException("sequence");
 
-			return Array.AsReadOnly(sequence.ToArray());
+			return new ReadOnlyCollection<T>(sequence.ToArray());
 		}
 
 		/// <summary>

@@ -1,4 +1,4 @@
-﻿
+﻿#if !WindowsCE
 using System;
 using System.Threading;
 
@@ -37,3 +37,4 @@ namespace Unme.Common
 		}
 	}	
 }
+#endif
