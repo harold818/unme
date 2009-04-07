@@ -18,7 +18,9 @@ namespace Unme.Common
 	/// <summary>
 	/// A Pair Tuple.
 	/// </summary>
+#if !WindowsCE
 	[DebuggerDisplay("{First}, {Second}")]
+#endif
 	[Serializable]
 	public class Tuple<TFirst, TSecond> : IEquatable<Tuple<TFirst, TSecond>>
 	{
