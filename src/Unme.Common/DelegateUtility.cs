@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 
 namespace Unme.Common
 {
@@ -33,7 +34,23 @@ namespace Unme.Common
 			for (int nDelegate = 0; nDelegate < delegates.Length; nDelegate++)
 				delegatesDest[nDelegate] = Delegate.CreateDelegate(type, delegates[nDelegate].Target, delegates[nDelegate].Method);
 
-			return Delegate.Combine(delegatesDest);
+			return InternalCombine(delegatesDest);
+		}
+
+		/// <summary>
+		/// Delegate.Combine(params Delegate[] delegates) not supported by Compact Framework.
+		/// </summary>
+		/// <param name="delegates">The array of delegates to combine.</param>
+		private static Delegate InternalCombine(params Delegate[] delegates)
+		{
+			if (delegates == null || delegates.Length == 0)
+				return null;
+			
+			Delegate combined = delegates[0];
+
+			delegates.Skip(1).ForEach(d => combined = Delegate.Combine(combined, d));
+		
+			return combined;
 		}
 	}
 }

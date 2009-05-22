@@ -1,5 +1,5 @@
-﻿using MbUnit.Framework;
-using System;
+﻿using System;
+using MbUnit.Framework;
 
 namespace Unme.Common.Tests
 {
