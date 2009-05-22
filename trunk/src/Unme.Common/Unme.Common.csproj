@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DelegateUtility.cs" />
     <Compile Include="DictionaryUtility.cs" />
     <Compile Include="DisposableUtility.cs" />
     <Compile Include="EventUtility.cs" />
